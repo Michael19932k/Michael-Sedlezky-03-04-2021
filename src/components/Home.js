@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Paper, Container, Typography, Card, CardContent, ButtonGroup, Button } from '@material-ui/core/';
-import TextureIcon from '@material-ui/icons/Texture';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Paper, Container, Typography } from '@material-ui/core/';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDefaultWeather } from '../redux/actions/homeActions';
 import AddFavoriteButton from './AddFavoriteButton';
@@ -21,11 +19,15 @@ const useStyles = makeStyles((theme) => ({
   },
   status: {
     padding: '5vw',
+    textAlign: 'center',
   },
   defaultCity: {
     display: 'flex',
     flexDirection: 'column',
     height: '20vh',
+    width: '60%',
+    lg: 'auto',
+    textAlign: 'center',
   },
   favourite: {
     height: '5vh',
@@ -43,15 +45,14 @@ const useStyles = makeStyles((theme) => ({
 function Home() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.loading);
-  const error = useSelector(state => state.error);
+  const loading = useSelector(state => state.weather.loading);
+  const error = useSelector(state => state.weather.error);
   const defaultWeather5days = useSelector(state => state.weather?.defaultWeather[1]?.DailyForecasts);
   const defaultCurrentConditions = useSelector(state => state.weather?.defaultWeather[0]);
   const chosenCity = useSelector(state => state.weather.chosenCity);
 
 
   useEffect(() => {
-    console.log(chosenCity)
     dispatch(getDefaultWeather(chosenCity));
   }, [])
 
@@ -61,11 +62,11 @@ function Home() {
       <Container maxWidth="lg" className={classes.root}>
         <Paper className={classes.wrapper}>
           <Grid container spacing={2}>
-            <Grid item xs container className={classes.location}>
-              <Grid item xs container>
+            <Grid item md container className={classes.location}>
+              <Grid item md container>
                 <div className={classes.defaultCity}>
                   <div>{chosenCity.LocalizedName}</div>
-                  <img src={process.env.PUBLIC_URL + `/weatherIcons/${defaultCurrentConditions?.WeatherIcon}.png`} draggable="false" />
+                  <img alt='Error' src={process.env.PUBLIC_URL + `/weatherIcons/${defaultCurrentConditions?.WeatherIcon}.png`} draggable="false" />
                   <div>{defaultCurrentConditions?.Temperature.Metric.Value}{defaultCurrentConditions?.Temperature.Metric.Unit}
                   </div>
                   <div>{defaultCurrentConditions?.LocalObservationDateTime.slice(0, 10)}</div>
@@ -78,10 +79,12 @@ function Home() {
             <AddFavoriteButton/>
             </Grid>
             <Grid item xs={12}  >
+            {loading && <Typography variant={'h3'} color={'primary'} className={classes.status}>loading</Typography>}
+            {error && <Typography variant={'h3'} color={'primary'} className={classes.status}>{error}</Typography>}
               <Typography variant={'h3'} color={'primary'} className={classes.status} >{defaultCurrentConditions?.WeatherText}</Typography>
             </Grid>
             {defaultWeather5days && defaultWeather5days.map((day, i) => {
-              const { Night, Day, Date, Temperature } = day;
+              const {  Day, Date, Temperature } = day;
               return (
                 <Grid key={i} item xs sm>
                   <Paper className={classes.paper}>

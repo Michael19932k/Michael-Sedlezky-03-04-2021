@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -7,6 +7,7 @@ import { getAutocomplete } from '../redux/actions/autocompleteActions';
 import { saveChosenCity } from '../redux/actions/autocompleteActions';
 import { getDefaultWeather } from '../redux/actions/homeActions';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 export default function AutocompleteInput() {
     const [open, setOpen] = useState(false);
@@ -35,7 +36,6 @@ export default function AutocompleteInput() {
                 onChange={(event, value) => {
                     dispatch(saveChosenCity(value));
                     dispatch(getDefaultWeather(chosenCity));
-                    console.log(value)
                 }}
                 options={autoCompleteSuggestions}
                 loading={loading}
@@ -66,6 +66,7 @@ export default function AutocompleteInput() {
                     />
                 )}
             />
+            {error && <Typography>{error}</Typography>}
         </Container>
     );
 

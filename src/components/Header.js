@@ -3,13 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
-import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
-import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
-import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import {
+    BrowserRouter as Router,
+    Link
+} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,16 +44,21 @@ export default function Header() {
                     onChange={handleAlignment}
                     aria-label="text alignment"
                 >
-                    <ToggleButton className='buttonText' value="left" aria-label="left aligned">
-                        <Typography className={classes.buttonText} variant="h6" noWrap>
-                            Home
+                    <Link style={{ textDecoration: 'none' }} to="/">
+                        <ToggleButton className='buttonText' value="left" aria-label="left aligned">
+                            <Typography className={classes.buttonText} variant="h6" noWrap>
+                                Home
                         </Typography>
-                    </ToggleButton>
-                    <ToggleButton className='buttonText' value="right" aria-label="right aligned">
-                    <Typography className={classes.buttonText} variant="h6" noWrap>
-                            Favorites
+                        </ToggleButton>
+                    </Link>
+                    <Link style={{ textDecoration: 'none' }} to="/favorites">
+                        <ToggleButton className='buttonText' value="right" aria-label="right aligned">
+                            <Typography className={classes.buttonText} variant="h6" noWrap>
+                                Favorites
                         </Typography>
-                    </ToggleButton>
+                        </ToggleButton>
+                    </Link>
+
 
                 </ToggleButtonGroup>
             </Toolbar>

@@ -5,6 +5,11 @@ import Header from './components/Header'
 import FavoritesList from './components/Favorites'
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 
 function App() {
@@ -12,7 +17,7 @@ function App() {
     root: {
       flexGrow: 1,
     },
-    container:{
+    container: {
       justifyContent: "space-between"
     },
     paper: {
@@ -21,20 +26,54 @@ function App() {
       textAlign: 'center',
       color: theme.palette.text.secondary,
       flexDirection: 'column',
-  
+
     },
   }));
   const classes = useStyles();
 
   return (
-    <div className="App">
-      <Header />
-      <Container className={classes.container} maxWidth="lg">
-      <AutocompleteInput />
-      <Home />
-      <FavoritesList />
-      </Container>
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <Route  exact path="/">
+            <>
+            <Header />
+            <Container className={classes.container} maxWidth="lg">
+              <AutocompleteInput />
+              <Home />
+            </Container>
+            </>
+          </Route>
+          <Route path="/favorites">
+          <>
+            <Header />
+            <Container className={classes.container} maxWidth="lg">
+              <FavoritesList />
+            </Container>
+            </>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+    // <Router>
+    //   <div className="App">
+    //     <Switch>
+    //       <Route path="/">
+    //         <Header />
+    //         <Container className={classes.container} maxWidth="lg">
+    //           <AutocompleteInput />
+    //           <Home />
+    //         </Container>
+    //       </Route>
+    //       <Route path="/favorites">
+    //         <Header />
+    //         <Container className={classes.container} maxWidth="lg">
+    //           <FavoritesList />
+    //         </Container>
+    //       </Route>
+    //     </Switch>
+    //   </div>
+    // </Router >
   );
 }
 

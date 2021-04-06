@@ -10,9 +10,7 @@ export function getFavoritesList() {
   }
 }
 export function addFavorite(cityDetails,CityWeather) {
-  // console.log(cityDetails,CityWeather)
   const addedCity = {...cityDetails, ...CityWeather }
-  console.log(addedCity)
   return {
     type: ADD_FAVORITE,
     payload: addedCity,
